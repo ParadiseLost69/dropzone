@@ -6,7 +6,11 @@ function App() {
 
   const [files, setFiles] = React.useState([]);
 
-  function handleFileUpload(e) {}
+  function handleFileUpload(e) {
+    const { files } = e.target;
+
+    setFiles((prevFiles) => [...prevFiles, ...files]);
+  }
 
   function handleDragOver(e) {
     e.preventDefault();
@@ -14,13 +18,11 @@ function App() {
 
   function handleDrop(e) {
     e.preventDefault();
-    const data = e.dataTransfer.files[0];
+    const data = e.dataTransfer.files;
     console.log(e.dataTransfer.items);
-    if (files.includes(data)) {
-      return;
-    }
+
     setFiles((prevFiles) => {
-      return [...prevFiles, data];
+      return [...prevFiles, ...data];
     });
 
     console.log(files);
@@ -39,8 +41,9 @@ function App() {
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
+          <h3 className="box-title">Drag and drop a file or click</h3>
           <input
-            style={{}}
+            onChange={handleFileUpload}
             className="file-input"
             type="file"
             multiple
@@ -49,7 +52,7 @@ function App() {
           />
         </div>
       </form>
-      <div>
+      <div className="file-upload-area">
         {files.length > 0 && (
           <div>
             <label htmlFor="custodian" name="custodia">
@@ -66,7 +69,9 @@ function App() {
                 );
               })}
             </div>
-            <button onClick={handleSubmit}>submit</button>
+            <button className="submit-button" onClick={handleSubmit}>
+              submit
+            </button>
           </div>
         )}
       </div>

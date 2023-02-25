@@ -1,14 +1,30 @@
-.title {
+.App {
   margin: 2rem;
+}
+
+.title {
+  margin-inline: auto;
+  margin-block: 2rem;
+  text-align: center;
 }
 
 .submit-box {
   height: 10rem;
-  width: 10rem;
-  background-color: antiquewhite;
-  border: 3px dashed black;
+  width: 70%;
+  background-color: rgba(213, 213, 213, 0.457);
+  border: 2px dashed rgba(74, 74, 74, 0.577);
   border-radius: 10px;
-  margin: 2rem;
+  margin: auto;
+  position: relative;
+}
+
+.box-title {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin: auto;
+  transform: translate(-50%);
+  color: rgba(95, 95, 95, 0.711);
 }
 
 .submit-box .file-input {
@@ -20,6 +36,9 @@
   opacity: 0;
   cursor: pointer;
 }
+.file-upload-area {
+  margin-block: 2rem;
+}
 
 .file-card--container {
   display: flex;
@@ -27,11 +46,23 @@
 }
 
 .file-card {
-  margin: 2rem;
-  background-color: aquamarine;
+  margin: 1rem;
+  margin-block: 1.5rem;
+  border: 1px solid rgba(185, 185, 185, 0.116);
+  box-shadow: 5px 5px 0px rgba(49, 49, 49, 0.224);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   max-width: fit-content;
+}
+
+.submit-button {
+  background-color: rgba(0, 0, 0, 0.039);
+  border: 1px solid black;
+  text-transform: capitalize;
+  padding: 0.5rem;
+  padding-inline: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
 }
