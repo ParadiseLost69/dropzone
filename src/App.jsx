@@ -54,11 +54,15 @@ function App() {
       </form>
       <div className="file-upload-area">
         {files.length > 0 && (
-          <div>
-            <label htmlFor="custodian" name="custodia">
-              Custodian
-            </label>
-            <input className="custodian" />
+          <div className="file-area">
+            <div className="input-area">
+              <label htmlFor="custodian">Custodian</label>
+              <input
+                className="custodian"
+                name="custodian"
+                placeholder="John Smith"
+              />
+            </div>
             <div className="file-card--container">
               {files.map((file, ind) => {
                 return (

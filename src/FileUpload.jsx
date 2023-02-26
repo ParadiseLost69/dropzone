@@ -43,9 +43,7 @@ const FileUpload = () => {
       onDragOver={(e) => e.preventDefault()}
     >
       <div className="dropzone">
-        <div className="text-center">
-          <h5>Drag and drop files here or click to select files</h5>
-        </div>
+        <h5>Drag and drop files here or click to select files</h5>
         <input type="file" onChange={handleFileInput} multiple />
       </div>
       {files.length > 0 && (
