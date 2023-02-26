@@ -1,11 +1,16 @@
 import "./App.css";
 import React from "react";
+
+import ProgressBar from "./components/progressBar";
+
 function App() {
   const title = document.head.querySelector("title");
   title.textContent = "Application";
 
   const [files, setFiles] = React.useState([]);
   const [fileSize, setFileSize] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [percent, setPercent] = React.useState(0);
 
   function handleFileUpload(e) {
     const { files } = e.target;
@@ -26,28 +31,29 @@ function App() {
   }
 
   function handleSubmit() {
-    let milliseconds = fileSize / 100;
+    //sets an interval time that is relative to the total file size.
+    const intervalTime = fileSize / 100000 + 10;
 
-    //For user display. MOCK LOADING
-    let seconds = Math.round(milliseconds / 1000);
-    console.log(
-      `This should finish in ${seconds + 1} second${
-        seconds + 1 === 1 ? "" : "s"
-      }`
-    );
+    setIsLoading(true);
+    let loadedSize = 0;
+    const totalSize = fileSize;
 
-    const loadingCountdown = setInterval(() => {
-      console.log(seconds + " seconds remaining");
-      seconds--;
-      if (seconds <= -1) {
-        console.log("Finito");
-        clearInterval(loadingCountdown);
+    const loadingInterval = setInterval(() => {
+      if (loadedSize >= totalSize) {
+        clearInterval(loadingInterval);
+        setIsLoading(false);
+        setFiles([]);
+        setPercent(0);
+        return;
       }
-    }, 1000);
 
-    setFiles([]);
+      //create a percentage based on what is loaded
+      loadedSize += Math.floor(totalSize / 100); // Increase the loadedSize by an amount proportional to the total size.
+      const newPercent = Math.floor((loadedSize / totalSize) * 100); // Calculate the new percentage of total size that has been loaded.
+
+      setPercent(newPercent);
+    }, intervalTime);
   }
-
   //changes the batch fileSize whenever the files change
   React.useEffect(() => {
     const size = files.reduce((prev, cur) => {
@@ -59,7 +65,7 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Click the box or drag and drop a file</h1>
-      <form onChange={(e) => console.log(e.target.files)} action="#">
+      <form action="#">
         <div
           className="submit-box"
           onDrop={handleDrop}
@@ -87,6 +93,7 @@ function App() {
                 placeholder="John Smith"
               />
             </div>
+
             <div className="file-card--container">
               {files.map((file, ind) => {
                 return (
@@ -100,6 +107,8 @@ function App() {
             <button className="submit-button" onClick={handleSubmit}>
               submit
             </button>
+
+            {isLoading && <ProgressBar width={percent} />}
           </div>
         )}
       </div>
