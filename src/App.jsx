@@ -5,10 +5,10 @@ function App() {
   title.textContent = "Application";
 
   const [files, setFiles] = React.useState([]);
+  const [fileSize, setFileSize] = React.useState(0);
 
   function handleFileUpload(e) {
     const { files } = e.target;
-
     setFiles((prevFiles) => [...prevFiles, ...files]);
   }
 
@@ -18,19 +18,43 @@ function App() {
 
   function handleDrop(e) {
     e.preventDefault();
-    const data = e.dataTransfer.files;
-    console.log(e.dataTransfer.items);
+    const { files } = e.dataTransfer;
 
     setFiles((prevFiles) => {
-      return [...prevFiles, ...data];
+      return [...prevFiles, ...files];
     });
-
-    console.log(files);
   }
 
   function handleSubmit() {
+    let milliseconds = fileSize / 100;
+
+    //For user display. MOCK LOADING
+    let seconds = Math.round(milliseconds / 1000);
+    console.log(
+      `This should finish in ${seconds + 1} second${
+        seconds + 1 === 1 ? "" : "s"
+      }`
+    );
+
+    const loadingCountdown = setInterval(() => {
+      console.log(seconds + " seconds remaining");
+      seconds--;
+      if (seconds <= -1) {
+        console.log("Finito");
+        clearInterval(loadingCountdown);
+      }
+    }, 1000);
+
     setFiles([]);
   }
+
+  //changes the batch fileSize whenever the files change
+  React.useEffect(() => {
+    const size = files.reduce((prev, cur) => {
+      return prev + cur.size;
+    }, 0);
+    setFileSize(size);
+  }, [files]);
 
   return (
     <div className="App">
